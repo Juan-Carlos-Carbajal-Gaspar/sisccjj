@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block subcontentbody %}
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+          <!-- general form elements -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">{{ titleform }}</h3>
+            </div>
+            <!-- /.card-header -->
+
+            {% block contentform %}
+                
+            {% endblock contentform %}
+                
+          </div>
+          <!-- /.card -->
+        </div>
+        <!--/.col (left) -->
+      </div>
+      <!-- /.row -->
+{% endblock subcontentbody %}

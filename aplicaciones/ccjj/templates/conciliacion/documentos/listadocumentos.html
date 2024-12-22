@@ -1,0 +1,211 @@
+{% extends 'form.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block subhead %}
+    <!-- select 2 -->
+    <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+
+{% endblock subhead %}
+
+{% block contentform %}
+    <div class="card-body">
+        
+        <!-- Documentos Conciliacion -->
+        <section class="content" id="sec_DocumentosConciliacion">
+            <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                <!-- general form elements -->
+                    <div class="card card-primary">
+                        <!-- /.card-header -->
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                Documentos Conciliación
+                            </h3>                          
+                        </div>
+                        <div class="card-body">
+                            <table class="table" id="tblDocumentoConciliacion">
+                                <thead>
+                                    <tr>
+                                        <th>TIPO DE DOCUMENTO</th>
+                                        <th>WORD</th>
+                                        <th>PDF</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>   
+                        </div>
+                        <!-- /.card-body -->
+                        
+                    </div>
+                    <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Otros Documentos Conciliacion -->
+        <section class="content" id="sec_OtrosDocumentosConciliacion">
+            <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                <!-- general form elements -->
+                    <div class="card card-primary">
+                        <!-- /.card-header -->
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                Otros Documentos Conciliación
+                            </h3>                          
+                        </div>
+                        <div class="card-body">
+                            <table class="table" id="tblOtrosDocumentoConciliacion">
+                                <thead>
+                                    <tr>
+                                        <th>TIPO DE DOCUMENTO</th>
+                                        <th>WORD</th>
+                                        <th>PDF</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>   
+                        </div>
+                        <!-- /.card-body -->
+                        
+                    </div>
+                    <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+        <a href="{% url 'ccjj:jj_listaexpedientedetalle' idexp %}" class="btn btn-primary btn-flat btnAtras">
+            <i class="fas fa-arrow-left"></i> Atras
+        </a>
+    </div>
+    
+
+<!-- Modal Para Agregar-Subir Documentos -->
+<div class="modal fade" id="modalDocumentos" style="display: none;" aria-hidden="true">
+    <form id="formDocumentos" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title"><b><i class="fas fa-search"></i> <span></span></b></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">X</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="{{ action }}">
+                    <input type="hidden" name="id" id="id" value="0">
+
+                    <div class="form-group">
+                        <label for="">Tipo de Documento:</label>
+                        <input type="text" class="form-control" name="tipodocumento" id="tipodocumento" readonly>
+                    </div>
+                                                    
+                    <div class="form-group">
+                        <label for="">Archivo Escaneado (PDF):</label>
+                        <input type="file" class="form-control" name="archivo" id="archivo" accept="application/pdf" required>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Subir</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+</div>
+
+<!-- Modal Para Agregar-Subir Otros Documentos -->
+<div class="modal fade" id="modalOtrosDocumentos" style="display: none;" aria-hidden="true">
+    <form id="formOtrosDocumentos" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title"><b><i class="fas fa-search"></i> <span></span></b></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">X</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <input type="hidden" name="idotros" id="idotros" value="0">
+
+                    <div class="form-group">
+                        <label for="">Tipo de Documento:</label>
+                        <input type="text" class="form-control" name="tipootrosdocumentos" id="tipootrosdocumentos" readonly>
+                    </div>
+                                                       
+                    <div class="form-group">
+                        <label for="">Archivo Escaneado (PDF):</label>
+                        <input type="file" class="form-control" name="otroarchivo" id="otroarchivo" accept="application/pdf" required>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Subir</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+</div>
+
+
+{% endblock contentform %}
+
+<!-- Bloque javascripts -->
+{% block subbody %}
+    <!-- Documentos Expediente -->
+    <script src="{% static 'conciliacion/documentos/js/documentos14.js' %}"></script>
+
+    <!-- Select2-->
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'lib/AdminLTE-3.1.0/js/adminlte.min.js' %}"></script>
+
+    <!-- DataTables  & Plugins -->
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/pdfmake/vfs_fonts.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    
+{% endblock subbody %}

@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+
+{% load static %}
+<!-- Bloque de Head  -->
+{% block subhead %}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+
+    <!-- Bloque de sub Head List  -->
+    {% block headlist %}
+        
+    {% endblock headlist %}
+        
+{% endblock subhead %}
+
+<!-- Bloque de contenidobody  -->
+{% block subcontentbody %}
+
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+      <!-- general form elements -->
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">{{ titleform }}</h3>
+        </div>
+        <!-- /.card-header -->
+
+        <div class="card-body">
+          {% block filtrosreporte %}
+                
+          {% endblock filtrosreporte %}
+          <br>
+          <br>
+            <table id="data" class="table table-bordered table-hover">
+              <!-- Bloque de columnas  -->
+              <thead>
+                <tr>
+                  
+                </tr>
+                  {% block columnas %}
+
+                  {% endblock columnas %}
+              </thead>
+              
+              <!-- Bloque de filas  -->
+              <tbody>
+                
+                  {% block filas %}
+
+                  {% endblock filas %}
+              </tbody>
+
+              <!-- Bloque de tfoot  -->
+              <tfoot>
+                  {% block tfoot %}
+
+                  {% endblock tfoot %}
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            
+              <!-- Block de card_footer_list -->
+              {% block card_footer_list %}
+             
+              {% endblock card_footer_list %}
+                  
+          </div>
+          <!-- /.card-footer -->
+
+        {% block contentform %}
+            
+        {% endblock contentform %}
+            
+      </div>
+      <!-- /.card -->
+    </div>
+    <!--/.col (left) -->
+  </div>
+  <!-- /.row -->
+
+{% endblock subcontentbody %}
+
+<!-- Bloque de javascripts  -->
+{% block subbody %}
+<!-- DataTables  & Plugins -->
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/jszip/jszip.min.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/pdfmake/pdfmake.min.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/pdfmake/vfs_fonts.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'lib/AdminLTE-3.1.0/js/adminlte.min.js' %}"></script>
+
+    <!-- Bloque javascripts -->
+    {% block javascripts %}
+
+    {% endblock javascripts %}
+
+{% endblock subbody %}
+
+
+

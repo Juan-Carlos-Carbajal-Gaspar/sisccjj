@@ -1,0 +1,98 @@
+{% extends 'form.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block subhead %}
+    <!-- select 2 -->
+    <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+{% endblock subhead %}
+
+{% block contentform %}
+<form id="formactaconciliacion" method="POST" enctype="multipart/form-data">
+    <div class="card-body">
+        <!-- Materia Conciliables -->
+        <section class="content" id="sec_actaconciliacion">
+            <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                <!-- general form elements -->
+                    <div class="card card-primary">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" id="action" value="{{ action }}">
+                            <input type="hidden" name="idexp" id="idexp" value="{{ idexp }}">
+                            <input type="hidden" class="form-control" id="numacta" name="numacta" value="{{ numacta }}" readonly>
+                            <input type="hidden" class="form-control" id="numparcial" name="numparcial" value="{{ numparcial }}" readonly>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="">Fecha y Hora: </label>
+                                        {{ formactaconciliacion.fec_inf }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Tipo de Acta: </label>
+                                        <select class="form-control" id="tipacta" name="tipacta" required>
+                                            <option value="at">ACUERDO TOTAL</option>
+                                            <option value="ap">ACUERDO PARCIAL</option>
+                                            <option value="fa">FALTA DE ACUERDO</option>
+                                            
+                                            {% if tipinv == 'ci' %}
+                                                <option value="is">INASISTENCIA SOLICITANTE</option>
+                                                <option value="ii">INASISTENCIA INVITADO</option>
+                                                <option value="iap">INASISTENCIA DE AMBAS PARTES</option>
+                                            {% endif %}
+                                                                                            
+                                            <option value="am">ACTA MOTIVADA</option>
+                                            <option value="ci">CONCLUSION CON INFORME</option>
+                                        </select>
+
+                                        <!-- {{ formactaconciliacion.tip_inf }} -->
+                                    </div>
+                                                                       
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="float-left">
+                                        <a href="{% url 'ccjj:jj_listaexpedientedetalle' idexp %}" class="btn btn-primary btn-flat btnAtras">
+                                            <i class="fas fa-arrow-left"></i> Atras
+                                        </a>                                         
+                                    </div>
+                                    <div class="float-right">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Generar Acta</button>               
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>  
+    </div>
+    <!-- /.card-body -->
+
+</form>
+
+{% endblock contentform %}
+
+<!-- Bloque javascripts -->
+{% block subbody %}
+    <!-- Acta Conciliacion -->
+    <script src="{% static 'conciliacion/actaconciliacion/js/actaconciliacion9.js' %}"></script>
+
+    <!-- Select2-->
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+   
+{% endblock subbody %}

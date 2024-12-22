@@ -1,0 +1,119 @@
+{% extends 'form.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block subhead %}
+    <!-- Estilo Para Centrear Controles -->
+    <link rel="stylesheet" href="{% static 'css/centrocontrol.css' %}">
+    <!-- select 2 -->
+    <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+{% endblock subhead %}
+
+{% block contentform %}
+<!-- Form start -->
+<form id="formpagoexpconciliacion" method="POST" enctype="multipart/form-data">
+    <div class="card-body">
+        <!-- Materia Conciliables -->
+        <section class="content" id="sec_PagoExpConciliacion">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- LINE CHART -->
+                        <div class="card card-info">
+                          <div class="card-body">
+                            <div class="form-group row">
+                                <label for="" class="col-sm-2 col-form-label">Seleccionar Periodo: </label>
+                                <div class="col-sm-10">
+                                    <select name="periodo" id="periodo" class="form-control" onchange="mostrarChart(this.value)">
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+            
+                      </div>
+                    <!-- /.col (RIGHT) -->
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <!-- LINE CHART -->
+                        <div class="card card-info">
+                          <div class="card-header">
+                            <h3 class="card-title">Linea</h3>
+            
+                            <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                              </button>
+                              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <div class="chart">
+                              <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+            
+                      </div>
+                    <!-- /.col (RIGHT) -->
+
+
+                    <div class="col-md-6">
+                        <!-- BAR CHART -->
+                        <div class="card card-success">
+                          <div class="card-header">
+                            <h3 class="card-title">Barra</h3>
+            
+                            <div class="card-tools">
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                              </button>
+                              <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            <div class="chart">
+                              <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                          </div>
+                          <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+            
+                      </div>
+                      <!-- /.col (RIGHT) -->
+                </div>
+            </div>
+        </section>  
+    </div>
+    <!-- /.card-body -->
+
+</form>
+
+
+{% endblock contentform %}
+
+{% block subbody %}
+    <!-- Select-->
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <!-- Reporte Financiero -->
+    <script src="{% static 'reportes/rfinanciero/js/rfinanciero3.js' %}"></script>
+
+{% endblock subbody %}
+

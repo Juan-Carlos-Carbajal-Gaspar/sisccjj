@@ -1,0 +1,408 @@
+{% extends 'form.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block subhead %}
+    <!-- select 2 -->
+    <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+
+{% endblock subhead %}
+
+{% block contentform %}
+<form id="formcajaconciliacionconciliacion" method="POST" enctype="multipart/form-data">
+    <div class="card-body">
+        
+        <input type="hidden" value="{{ dataingreso.pactado }}" class="form-control" id="montopactado" name="montopactado">
+        <input type="hidden" value="{{ dataingreso.montotaladel }}" class="form-control" id="montoadelanto" name="montoadelanto">
+        
+        <div class="row">
+            <div class="container-fluid">
+                <table class="table" id="tblCajaConciliacion">
+                    <thead>
+                        <tr>
+                            <th>SOCIO (A)</th>
+                            <th>INGRESOS TOTALES</th>
+                            <th>EGRESOS TOTALES</th>
+                            <th>CAJA CONCILIACIÓN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Detalle Caja Conciliacion -->
+        <section class="content" id="sec_DetalleIngresoExpConciliacion">
+            <div class="container-fluid">
+                
+                <div class="row">
+                <!-- left column -->
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="card card-primary">
+                            <!-- /.card-header -->
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Ingreso Conciliacion Detalle
+                                </h3>
+                                
+                                {% if dataingreso.montodeuda == 0.0 %}
+                                    &nbsp;
+                                {% else %}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="float-right">
+                                                <button class="btn btn-success btn-flat btnAddIngresoConciliacion" type="button">Agregar Pago
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                {% endif %}                                
+                                
+                            </div>
+                            <div class="card-body">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" id="action" value="{{ action }}">
+                                <input type="hidden" name="idexp" id="idexp" value="{{ idexp }}">
+                                <input type="hidden" name="tipcon" id="tipcon" value="{{ tipcon }}">
+
+                                <div class="row">
+                                    
+                                    <table width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <label for="">Costo Conciliacion (S/.): {{ formpagoexp.pacpag_con }}</label>
+                                                </th>
+                                                <th>&nbsp;</th>
+                                                <th>   
+                                                    <label for="">Descuento (S/.): <input type="numeric" class="form-control" value="{{ dataingreso.descuento }}" readonly></label>
+                                                </th>
+                                                <th>&nbsp;</th>
+                                                <th>   
+                                                    <label for="">Total Pactado (S/.): <input type="numeric" class="form-control" value="{{ dataingreso.pactado }}" readonly></label>
+                                                </th>
+                                                
+                                            </tr>
+                                            <tr>                                               
+                                                <th>   
+                                                    <label for="">Monto Adelantado (S/.): <input type="numeric" class="form-control" value="{{ dataingreso.montotaladel }}" readonly></label>
+                                                </th>
+                                                <th>&nbsp;</th>
+                                                <th>   
+                                                    <label for="">Monto Deuda (S/.): <input type="numeric" class="form-control" value="{{ dataingreso.montodeuda }}" readonly></label>
+                                                </th>
+                                                <th>&nbsp;</th>
+                                                <th>   
+                                                    <label for="">Estado: <input type="numeric" class="form-control" value="{{ dataingreso.estado }}" readonly></label>
+                                                </th>
+                                                
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <table class="table" id="tblIngresoDetalle">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha y hora de pago</th>
+                                                    <th>Monto abonado</th>
+                                                    <th>Parte en conlicto</th>
+                                                    <th>Opción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detalle Copias de Certificacion -->
+        <section class="content" id="sec_CopiasCertificacionConciliacion">
+            <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                <!-- general form elements -->
+                    <div class="card card-primary">
+                        <!-- /.card-header -->
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                Ingresos - Copias Certificadas (Acta)
+                            </h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="float-right">
+                                        <button class="btn btn-success btn-flat btnAddIngresoActa" type="button">Agregar Pago
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="card-body">
+                            {% csrf_token %}                       
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table" id="tblCopiasActas">
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha y hora de pago</th>
+                                                <th>Cantidad</th>
+                                                <th>Monto abonado</th>
+                                                <th>Parte en conflicto</th>
+                                                <th>Opción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        
+                    </div>
+                    <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+        {% if tipcon == "ci" %}
+        <!-- Egresos Conciliacion -->
+        <section class="content" id="sec_EgresosConciliacion">
+            <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                <!-- general form elements -->
+                    <div class="card card-primary">
+                        <!-- /.card-header -->
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                Egresos Conciliación
+                            </h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="float-right">
+                                        <button class="btn btn-success btn-flat btnAddEgresos" type="button">Agregar Egreso
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="card-body">
+                            {% csrf_token %}                       
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <table class="table" id="tblEgresosConciliacion">
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha y hora</th>
+                                                <th>Tipo invitación</th>
+                                                <th>Monto</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        
+                    </div>
+                    <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+            
+
+        
+
+        
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+        <a href="{% url 'ccjj:jj_listaexpedientedetalle' idexp %}" class="btn btn-primary btn-flat btnAtras">
+            <i class="fas fa-arrow-left"></i> Atras
+        </a>
+    </div>
+    
+</form>
+
+<!-- Modal Para Agregar Ingreso Conciliacion -->
+<div class="modal fade" id="modalIngresoConciliacion" style="display: none;" aria-hidden="true">
+    <form id="formIngresoConciliacionDetalle" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-user-plus"></i> Agregar Ingreso Conciliacion</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="">Monto a pagar (S/.): {{ formpagoexp.adelanto }}</label>
+                            </div>
+                                                               
+                            <div class="form-group">
+                                <label for="">Parte en conlicto:</label>
+                                <select class="form-control" id="cliente" name="cliente" required>
+                                    
+                                </select>
+                            </div>
+                            
+                        </div> 
+                    </div> 
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Pago</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+</div>
+
+<!-- Modal Para Agregar Ingreso Copia Certificacion Acta -->
+<div class="modal fade" id="modalIngresoActa" style="display: none;" aria-hidden="true">
+    <form id="formIngresoActaDetalle" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-user-plus"></i> Agregar Ingreso Acta</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="">Cantidad: {{ formpagoexp.cantidadcopias }}</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="">Monto a pagar (S/.): {{ formpagoexp.montocopias }}</label>
+                            </div>
+                                                               
+                            <div class="form-group">
+                                <label for="">Parte en conflicto:</label>
+                                <select class="form-control" id="clienteacta" name="clienteacta" required>
+                                    
+                                </select>
+                            </div>
+                            
+                        </div> 
+                    </div> 
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Pago</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+</div>
+
+<!-- Modal Para Agregar Egreso Conciliacion -->
+<div class="modal fade" id="modalEgresosConciliacion" style="display: none;" aria-hidden="true">
+    <form id="formEgresosConciliacion" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-user-plus"></i> Agregar Egreso Conciliación</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="">Monto egreso: {{ formpagoexp.montoegresos }}</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Tipo de invitación:</label>
+                                <select class="form-control" id="tipoinv" name="tipoinv" required>
+                                    <option value="Primera" selected>Primera</option>
+                                    <option value="Segunda">Segunda</option>
+                                </select>
+                            </div>                            
+                        </div> 
+                    </div> 
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Egreso</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+</div>
+{% endblock contentform %}
+
+<!-- Bloque javascripts -->
+{% block subbody %}
+    <!-- Ingreso Conciliacion -->
+    <script src="{% static 'conciliacion/ingresoconciliacion/js/cajaconciliacion19.js' %}"></script>
+
+    <!-- Select2-->
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'lib/AdminLTE-3.1.0/js/adminlte.min.js' %}"></script>
+
+    <!-- DataTables  & Plugins -->
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/pdfmake/vfs_fonts.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    
+{% endblock subbody %}

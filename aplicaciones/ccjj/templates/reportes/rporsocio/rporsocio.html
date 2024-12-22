@@ -1,0 +1,156 @@
+{% extends 'list.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+<!-- Bloque de sub Head List  -->
+    
+{% block headlist %}
+ <!-- select 2 -->
+ <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+ <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+{% endblock headlist %}
+
+{% block filtrosreporte %}
+    {% csrf_token %}
+    <!-- FILTROS -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- LINE CHART -->
+            <div class="card card-info">
+              <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="" class="col-form-label">Socio: </label>
+                            <select name="socio" id="socio" class="form-control">
+                        
+                            </select>
+                        </div> 
+                    </div>
+                </div>
+                    
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="" class="col-form-label">Materia Conciliable: </label>
+                            <select name="materias" id="materias" class="form-control">
+                                <option value="all" selected>Todos</option>
+                            </select>
+                        </div> 
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="" class="col-form-label">Procedimiento Conciliable: </label>
+                            <select name="procedimientos" id="procedimientos" class="form-control">
+                                <option value="all" selected>Todos</option>
+                            </select>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="" class="col-form-label">Expediente: </label>
+                            <select name="acta" id="acta" class="form-control">
+                                <option value="all" selected>Todos</option>
+                                <option value="CA">CONCLUIDO CON ACTA</option>
+                                <option value="CI">CONCLUIDO CON INFORME</option>
+                                <option value="">NO CONCLUIDO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="" class="col-form-label">Desde: </label>
+                            <input type="date" id="fechdesde" name="fechdesde" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label for="" class="col-form-label">Hasta: </label>
+                            <input type="date" id="fechhasta" name="fechhasta" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-success btn-flat btnSearch" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <a href="{% url 'ccjj:jj_reporteporsocio' %}" class="btn btn-success btn-flat btnRefresh"><i class="fas fa-sync"></i></a>
+                    </div>
+                </div>
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </div>
+        <!-- /.col (RIGHT) -->
+    </div> 
+    <!-- RESULTADOS -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- LINE CHART -->
+            <div class="card card-info">
+              <div class="card-body">
+                <div class="form-group row text-center">
+                    <label for="" class="col-sm-12 col-form-label">RESULTADOS</label>
+                </div>
+                <div class="form-group row"> 
+                    <label for="" class="col-sm-2 col-form-label">DNI - Socio: </label>
+                    <div class="col-sm-4">
+                        <input type="text" id="resdni" name="resdni" class="form-control" readonly>
+                    </div>                      
+                    <div class="col-sm-3">
+                        <input type="text" id="resacta" name="resacta" class="form-control" readonly>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" id="resfecha" name="resfecha" class="form-control" readonly>
+                    </div>
+                </div>
+
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+          </div>
+        <!-- /.col (RIGHT) -->
+    </div> 
+{% endblock filtrosreporte %}
+
+<!-- Bloque de columnas  -->
+{% block columnas %}
+<tr>
+    <th>N° EXP</th>
+    <th>SOLICITANTE (S)</th>
+    <th>INVITADO (S)</th>
+    <th>FECHA SOLICITUD</th>
+    <th>MATERIA/PROCEDIMIENTO</th>
+    <th>N° ACTA</th>
+    <th>N° INFORME</th>
+    <th>TIPO ACTA</th>
+    <th>CONDICION ECONOMICA</th>  
+</tr>
+
+{% endblock columnas %}
+
+
+{% block filas %}
+
+{% endblock filas %}
+
+<!-- Bloque javascripts -->
+
+{% block javascripts %}
+    <!-- Select-->
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <!-- Reporte Por Socio -->
+    <script src="{% static 'reportes/rporsocio/js/rporsocio4.js' %}"></script>
+{% endblock javascripts %}

@@ -1,0 +1,39 @@
+{% extends 'list.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block filtrosreporte %}
+    <a href="{% url 'ccjj:jj_crearexpediente' %}" class="btn btn-success btn-flat btnAdd">
+        <i class="fas fa-plus"></i> Nuevo Expediente
+    </a>         
+{% endblock filtrosreporte %}
+
+<!-- Bloque de columnas  -->
+{% block columnas %}
+<tr>        
+    <th>N° DE EXPEDIENTE</th>
+    <th>FECHA Y HORA</th>
+    <th>TIPO DE CONCILIACIÓN</th>
+    <th>ESTADO</th>
+    <th>OPCIÓN</th>
+</tr>
+{% endblock columnas %}
+
+{% block filas %}
+
+{% endblock filas %}
+
+<!-- Block de card_footer_list -->
+{% block card_footer_list %}
+          
+{% endblock card_footer_list %}
+
+{% block javascripts %}
+    <!-- Listar Expedientes -->
+    <script src="{% static 'conciliacion/expediente/js/expediente8.js' %}"></script>
+{% endblock javascripts %}
+
+
+

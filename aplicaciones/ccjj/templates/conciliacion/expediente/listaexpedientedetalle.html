@@ -1,0 +1,38 @@
+{% extends 'list.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+<!-- Bloque de columnas -->
+{% block columnas %}
+
+<tr>        
+    <th>N° EXP.</th>
+    <th>FECHA Y HORA</th>
+    <th>SOLICITUD</th>
+    <th>MATERIA CONCILIABLE</th>
+    <th>ESQUELA CONCILIADOR</th>
+    <th>INVITACIÓN</th>
+    <th>CAJA EXPEDIENTE</th>
+    <th>ACTA</th>
+    <th>DOCUMENTOS</th>
+</tr>
+{% endblock columnas %}
+
+{% block filas %}
+
+{% endblock filas %}
+
+<!-- Block de card_footer_list -->
+{% block card_footer_list %}
+<a href="{{ list_url }}" class="btn btn-primary btn-flat btnAdd">
+    <i class="fas fa-arrow-left"></i> Atras
+</a>     
+{% endblock card_footer_list %}
+
+{% block javascripts %}
+    <!-- Expediente Detalle -->
+    <script src="{% static 'conciliacion/expediente/js/expedientedetalle32.js' %}"></script>
+{% endblock javascripts %}
+

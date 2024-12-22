@@ -1,0 +1,42 @@
+{% extends 'list.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+<!-- Bloque de columnas  -->
+{% block columnas %}
+<tr>        
+    <th>NRO.</th>
+    <th>DNI</th>
+    <th>NOMBRES Y APELLIDOS</th>
+    <th>EDAD</th>
+    <th>SEXO</th>
+    <th>DIRECCION</th>
+    <th>NUMERO CELULAR</th>
+    <th>EMAIL</th>
+    <th>OPCIONES</th>
+</tr>
+{% endblock columnas %}
+
+
+{% block filas %}
+
+  
+{% endblock filas %}
+
+<!-- Block de card_footer_list -->
+{% block card_footer_list %}
+<a href="{{ crear_url }}" class="btn btn-primary btn-flat btnAdd">
+    <i class="fas fa-plus"></i> Nuevo Registro
+</a>
+<a href="{{ list_url }}" class="btn btn-success btn-flat">
+  <i class="fas fa-sync"></i> Actualizar
+</a>            
+{% endblock card_footer_list %}
+
+{% block javascripts %}
+    <!-- Cliente -->
+    <script src="{% static 'cliente/js/cliente7.js' %}"></script>
+{% endblock javascripts %}
+

@@ -1,0 +1,133 @@
+{% extends 'list.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block filtrosreporte %}
+    <div class="form-group">
+        <input type="hidden" name="txtnuminvi" id="txtnuminvi" class="form-control" readonly>
+
+        <label for="" id="lbltxtfecha">Fecha de audiencia:</label>
+        <input type="text" name="txtfecha" id="txtfecha" class="form-control" readonly>
+        
+        <label for="" id="lbltxthora">Hora de audiencia:</label>
+        <input type="text" name="txthora" id="txthora" class="form-control" readonly>
+                
+    </div>
+    
+{% endblock filtrosreporte %}
+
+<!-- Bloque de columnas  -->
+{% block columnas %}
+<tr>        
+    <th>ID.</th>
+    <th>DNI</th>
+    <th>NOMBRES Y APELLIDOS</th>
+    <th>GENERAR INVITACIÓN</th>
+</tr>
+{% endblock columnas %}
+
+
+{% block filas %}
+
+  
+{% endblock filas %}
+
+
+<!-- Block de card_footer_list -->
+{% block card_footer_list %}
+<div class="card-footer">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-left">
+                <a href="{% url 'ccjj:jj_listaexpedientedetalle' idexp %}" class="btn btn-primary btn-flat btnAtras">
+                    <i class="fas fa-arrow-left"></i> Atras
+                </a>  
+                          
+            </div>
+        </div>
+    </div> 
+</div>     
+{% endblock card_footer_list %}
+
+{% block javascripts %}
+    <!-- Modal Para PrimeraInvitacion-->
+    <div class="modal fade" id="modalPrimeraInvitacion" style="display: none;" aria-hidden="true">
+        <form id="formPrimeraInvitacion" method="POST" action="." enctype="multipart/form-data">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title"><b><i class="fas fa-search"></i> <span></span></b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                <span aria-hidden="true">X</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <div class="container-fluid">
+                <input type="hidden" name="action" value="add">
+                <input type="hidden" name="id" id="id">
+                <input type="hidden" name="idper" id="idper">
+                <input type="hidden" name="idexp" id="idexp" value="{{ idexp }}">
+                <input type="text" name="invitado" id="invitado" class="form-control" readonly>
+                <!-- Fecha Actual -->
+                <!-- <input type="text" name="txtfechaactual" id="txtfechaactual" class="form-control" value="{{ fechaactual }}"> -->
+                <br>
+                <div class="form-group">
+                    <label>Fecha y Hora:</label>
+                    <input type="datetime-local" id="txtfechahora" name="txtfechahora" class="form-control" required>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Guardar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+    </div>
+
+    <!-- Modal Para SegundaInvitacion-->
+    <div class="modal fade" id="modalSegundaInvitacion" style="display: none;" aria-hidden="true">
+        <form id="formSegundaInvitacion" method="POST" action="." enctype="multipart/form-data">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title"><b><i class="fas fa-search"></i> <span></span></b></h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                <span aria-hidden="true">X</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            <div class="container-fluid">
+                <input type="hidden" name="action" value="addsegunda">
+                <input type="hidden" name="ids" id="ids">
+                <input type="hidden" name="idpers" id="idpers">
+                <input type="hidden" name="idexps" id="idexps" value="{{ idexp }}">
+                <input type="text" name="invitados" id="invitados" class="form-control" readonly>
+                
+                <br>
+                <div class="form-group">
+                    <label>Fecha y Hora:</label>
+                    <input type="datetime-local" id="txtfechahoras" name="txtfechahoras" class="form-control" required>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Guardar</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+    </div>
+
+    <!-- Cliente -->
+    <script src="{% static 'conciliacion/invitacion/js/invitacion23.js' %}"></script>
+
+{% endblock javascripts %}

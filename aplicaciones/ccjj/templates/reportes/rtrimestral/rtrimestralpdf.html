@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+
+        .titulo{
+            font-family: Calibri;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+            line-height: 75%;
+            font-size: 13px;
+        }
+        .datostitulo{
+            font-family: Calibri;
+            text-align: center;
+            padding: 0;
+            margin: 0;
+            color: black;
+            line-height: 75%;
+            font-size: 7.5px;
+            padding: 3px;
+        }
+        .bordedeshabilitado{
+            border: hidden;
+            font-weight: bold;
+            line-height: 75%;
+        }
+        .bordehabilitado{
+            border: 2px solid #000;
+            line-height: 75%;
+        }
+        .textcenter {
+            text-align: center;
+        }
+        .colorfondogris{
+            background-color: #E0E3E6;
+            text-align: center;
+            padding: 3px;
+            font-size: 7.5px;
+            font-weight: bold;
+            border: 2px solid #000;
+            line-height: 75%;
+        }
+        .colorfondonegro{
+            background-color: #000;
+            text-align: center;
+            padding: 3px;
+            font-size: 7.5px;
+            font-weight: bold;
+            border: 2px solid #000;
+            color: white;
+            line-height: 75%;
+        }
+        .solicitanteinvitado{
+            text-align: center;
+            padding: 3px;
+            font-size: 6.5px;
+            color: black;
+            line-height: 75%;
+        }
+        .tablaleyenda{
+            border: hidden;
+            text-align: left;
+            font-size: 7.5px;
+            font-family: Calibri;
+            line-height: 75%;
+        }
+        .tablafirma{
+            border: hidden;
+            text-align: center;
+            font-size: 7.5px;
+            font-family: Calibri;
+            line-height: 75%;
+        }
+        .tablapdfprocedimiento{
+            border: hidden;
+            text-align: left;
+            font-size: 7.5px;
+            font-family: Calibri;
+            line-height: 75%;
+        }
+        .tablapdfmaterias{
+            border: hidden;
+            text-align: left;
+            font-size: 7.5px;
+            font-family: Calibri;
+            font-weight: bold;
+            line-height: 75%;
+        }
+        
+        .tablapdfcontenido{
+            border: hidden;
+            text-align: center;
+            font-size: 7.5px;
+            font-family: Calibri;
+            border: 1px solid #000;
+            padding: 0;
+            margin: 0;
+            line-height: 75%;
+        }
+        .tablapdftotal{
+            text-align: center;
+            font-size: 7.5px;
+            font-family: Calibri;
+            border-bottom-color: black; 
+            border-bottom-style:solid;
+            border-bottom-width:1px;
+            background-color: #E0E3E6;
+            line-height: 75%;
+        }
+        .tablapdftotalgeneral{
+            text-align: center;
+            font-size: 7.5px;
+            font-family: Calibri;
+            border: 1px solid #000;
+            background-color: #E0E3E6;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <input type="hidden" name="yearpdf" id="yearpdf" value="{{ year }}">
+    <h1 class="titulo">HOJA SUMARIA DEL SERVICIO CONCILIATORIO PRIVADO</h1>
+    <br>
+    <table>
+        <tr>
+            <td width="40%" colspan="3" style="text-align: left;" class="datostitulo bordedeshabilitado">NOMBRE DEL CENTRO DE CONCILIACION</td>
+            <td width="60%" colspan="7" class="datostitulo bordehabilitado">CENTRO DE CONCILIACION V&R</td>
+        </tr>
+        <tr>
+            <td colspan="10">&nbsp;</td>
+        </tr>
+        <tr>
+            <td width="26%" class="datostitulo bordedeshabilitado">&nbsp;</td>
+            <td width="7%" class="datostitulo bordedeshabilitado">&nbsp;</td>
+            <td width="7%" class="datostitulo bordedeshabilitado">AÑO</td>
+            <td width="7%" class="datostitulo bordehabilitado">{{ year }}</td>
+            <td width="9%" class="datostitulo bordedeshabilitado">PERIODO</td>
+            <td width="12%" class="datostitulo bordehabilitado">{{ periodo }}</td>
+            <td width="4%" class="datostitulo bordedeshabilitado">DE</td>
+            <td width="12%" class="datostitulo bordehabilitado">{{ fechadesde }}</td>
+            <td width="4%" class="datostitulo bordedeshabilitado">A</td>
+            <td width="12%" class="datostitulo bordehabilitado">{{ fechahasta }}</td>
+        </tr>
+        <tr>
+            <td colspan="10">&nbsp;</td>
+        </tr>
+    </table>
+    
+    <table id="datapdf">
+        <thead>
+            <tr>
+                <th rowspan="2" width="25%" class="colorfondogris">MATERIAS</th>
+                <th rowspan="2" width="15%" class="colorfondogris">PROCEDIMIENTOS INICIADOS</th>
+                <th rowspan="2" width="7%" class="colorfondogris">EN TRÁMITE</th>
+                <th rowspan="2" width="1%">&nbsp;</th>
+                <th colspan="8" width="40%" class="colorfondonegro">CONCLUIDOS</th>
+                <th rowspan="2" width="1%">&nbsp;</th>
+                <th rowspan="2" width="12%" class="colorfondonegro">TOTAL CONCLUIDOS</th>
+            </tr>
+            <tr>
+                <th width="5%" class="colorfondogris">A.T.</th>
+                <th width="5%" class="colorfondogris">A.P.</th>
+                <th width="5%" class="colorfondogris">F.A.</th>
+                <th colspan="2" width="10%" class="colorfondogris">I.U.P.</th>
+                <th width="5%" class="colorfondogris">I.A.P.</th>
+                <th width="5%" class="colorfondogris">D.M.C.</th>
+                <th width="5%" class="colorfondogris">C.I.</th>
+            </tr>
+            <tr>
+                <th colspan="7"></th>
+                <th width="5%" class="solicitanteinvitado">Solicitante</th>
+                <th width="5%" class="solicitanteinvitado">Invitado</th>
+                <th colspan="4"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="tablapdfmaterias">CIVIL</td>
+            </tr>
+            {% for item in datacivil %}
+                <tr>
+                    <td class="tablapdfcontenido" style="text-align:left; margin:1;">{{ item.proc }}</td>
+                    <td class="tablapdfcontenido">{{ item.procini }}</td>
+                    <td class="tablapdfcontenido">{{ item.entram }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdfcontenido">{{ item.cat }}</td>
+                    <td class="tablapdfcontenido">{{ item.cap }}</td>
+                    <td class="tablapdfcontenido">{{ item.cfa }}</td>
+                    <td class="tablapdfcontenido">{{ item.ciups }}</td>
+                    <td class="tablapdfcontenido">{{ item.ciupi }}</td>
+                    <td class="tablapdfcontenido">{{ item.ciap }}</td>
+                    <td class="tablapdfcontenido">{{ item.cdmc }}</td>
+                    <td class="tablapdfcontenido">{{ item.cci }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdfcontenido">{{ item.cti }}</td>
+                    
+                </tr>
+            {% endfor %}
+            <tr>
+                <td class="tablapdfmaterias" style="text-align: right;">TOTAL</td>
+                {% for item in dataciviltotal %}
+                    <td class="tablapdftotal">{{ item.tprocini }}</td>
+                    <td class="tablapdftotal">{{ item.tentram }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdftotal">{{ item.tcat }}</td>
+                    <td class="tablapdftotal">{{ item.tcap }}</td>
+                    <td class="tablapdftotal">{{ item.tcfa }}</td>
+                    <td class="tablapdftotal">{{ item.tciups }}</td>
+                    <td class="tablapdftotal">{{ item.tciupi }}</td>
+                    <td class="tablapdftotal">{{ item.tciap }}</td>
+                    <td class="tablapdftotal">{{ item.tcdmc }}</td>
+                    <td class="tablapdftotal">{{ item.tcci }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdftotal">{{ item.tcti }}</td>
+                {% endfor %}
+                    
+            </tr>
+            <tr>
+                <td class="tablapdfmaterias">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="tablapdfmaterias">FAMILIA</td>
+            </tr>
+            {% for item in datafamilia %}
+                <tr>
+                    <td class="tablapdfcontenido" style="text-align:left; margin:1;">{{ item.proc }}</td>
+                    <td class="tablapdfcontenido">{{ item.procini }}</td>
+                    <td class="tablapdfcontenido">{{ item.entram }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdfcontenido">{{ item.cat }}</td>
+                    <td class="tablapdfcontenido">{{ item.cap }}</td>
+                    <td class="tablapdfcontenido">{{ item.cfa }}</td>
+                    <td class="tablapdfcontenido">{{ item.ciups }}</td>
+                    <td class="tablapdfcontenido">{{ item.ciupi }}</td>
+                    <td class="tablapdfcontenido">{{ item.ciap }}</td>
+                    <td class="tablapdfcontenido">{{ item.cdmc }}</td>
+                    <td class="tablapdfcontenido">{{ item.cci }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdfcontenido">{{ item.cti }}</td>
+                    
+                </tr>
+            {% endfor %}
+            <tr>
+                <td class="tablapdfmaterias" style="text-align: right;">TOTAL</td>
+                {% for item in datafamiliatotal %}
+                    <td class="tablapdftotal">{{ item.tprocini }}</td>
+                    <td class="tablapdftotal">{{ item.tentram }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdftotal">{{ item.tcat }}</td>
+                    <td class="tablapdftotal">{{ item.tcap }}</td>
+                    <td class="tablapdftotal">{{ item.tcfa }}</td>
+                    <td class="tablapdftotal">{{ item.tciups }}</td>
+                    <td class="tablapdftotal">{{ item.tciupi }}</td>
+                    <td class="tablapdftotal">{{ item.tciap }}</td>
+                    <td class="tablapdftotal">{{ item.tcdmc }}</td>
+                    <td class="tablapdftotal">{{ item.tcci }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdftotal">{{ item.tcti }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td class="tablapdfmaterias">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="tablapdfmaterias">CONTRATACIONES CON EL ESTADO</td>
+            </tr>
+            {% for item in dataestado %}
+                <tr>
+                    <td class="tablapdfcontenido" style="text-align:left; margin:1;">{{ item.proc }}</td>
+                    <td class="tablapdfcontenido">{{ item.procini }}</td>
+                    <td class="tablapdfcontenido">{{ item.entram }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdfcontenido">{{ item.cat }}</td>
+                    <td class="tablapdfcontenido">{{ item.cap }}</td>
+                    <td class="tablapdfcontenido">{{ item.cfa }}</td>
+                    <td class="tablapdfcontenido">{{ item.ciups }}</td>
+                    <td class="tablapdfcontenido">{{ item.ciupi }}</td>
+                    <td class="tablapdfcontenido">{{ item.ciap }}</td>
+                    <td class="tablapdfcontenido">{{ item.cdmc }}</td>
+                    <td class="tablapdfcontenido">{{ item.cci }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdfcontenido">{{ item.cti }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td class="tablapdfmaterias" style="text-align: right;">TOTAL</td>
+                {% for item in dataestadototal %}
+                    <td class="tablapdftotal">{{ item.tprocini }}</td>
+                    <td class="tablapdftotal">{{ item.tentram }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdftotal">{{ item.tcat }}</td>
+                    <td class="tablapdftotal">{{ item.tcap }}</td>
+                    <td class="tablapdftotal">{{ item.tcfa }}</td>
+                    <td class="tablapdftotal">{{ item.tciups }}</td>
+                    <td class="tablapdftotal">{{ item.tciupi }}</td>
+                    <td class="tablapdftotal">{{ item.tciap }}</td>
+                    <td class="tablapdftotal">{{ item.tcdmc }}</td>
+                    <td class="tablapdftotal">{{ item.tcci }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdftotal">{{ item.tcti }}</td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td class="tablapdfmaterias">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="tablapdftotalgeneral" style="text-align:left; margin:1;"><strong>TOTAL GENERAL</strong></td>
+                {% for item in dataestadototalgeneral %}
+                    <td class="tablapdftotalgeneral">{{ item.tgprocini }}</td>
+                    <td class="tablapdftotalgeneral">{{ item.tgentram }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdftotalgeneral">{{ item.tgcat }}</td>
+                    <td class="tablapdftotalgeneral">{{ item.tgcap }}</td>
+                    <td class="tablapdftotalgeneral">{{ item.tgcfa }}</td>
+                    <td class="tablapdftotalgeneral">{{ item.tgciups }}</td>
+                    <td class="tablapdftotalgeneral">{{ item.tgciupi }}</td>
+                    <td class="tablapdftotalgeneral">{{ item.tgciap }}</td>
+                    <td class="tablapdftotalgeneral">{{ item.tgcdmc }}</td>
+                    <td class="tablapdftotalgeneral">{{ item.tgcci }}</td>
+                    <td>&nbsp;</td>
+                    <td class="tablapdftotalgeneral">{{ item.tgcti }}</td>
+                {% endfor %}
+            </tr>
+                
+        </tbody>
+    </table>
+    <br>
+    <!-- aqui la data de la tabla -->
+    <table class="tablaleyenda">
+        <tr>
+            <td width="50%"><b>&nbsp;(1)</b> Obligación de dar no incluye sumas de dinero</td>
+            <td width="50%"><b>&nbsp;(4)</b> Cuando se concilie las 03 materias</td>
+        </tr>
+        <tr>
+            <td width="50%"><b>&nbsp;(2)</b> Incluye pago alquileres y otras deudas dinerarias</td>
+            <td width="50%"><b>&nbsp;(5)</b> en matrimonio o unión de hecho</td>
+        </tr>
+        <tr>
+            <td width="50%" style="border-bottom-color: black; border-bottom-style:solid; border-bottom-width:0.5px;"><b>&nbsp;(3)</b> Fijación de pensión, aumento, reducción, exoneración, prorrateo conciliatorio</td>
+            <td width="50%" style="border-bottom-color: black; border-bottom-style:solid; border-bottom-width:0.5px;"></td>
+        </tr>
+        
+    </table>
+    <table class="tablaleyenda">
+        <!-- <tr>
+            <td width="100%" colspan="3" style="border-top-color: black; border-top-style:solid; border-top-width:1px;">&nbsp;</td>
+        </tr> -->
+        <tr>
+            <td width="32%"><b>&nbsp;A.T.</b> Acuerdo Total</td>
+            <td width="32%"><b>&nbsp;F.A.</b> Falta de Acuerdo</td>
+            <td width="36%"><b>&nbsp;I.A.P.</b> Inasistencia de Ambas Partes</td>
+        </tr>
+        <tr>
+            <td width="32%"><b>&nbsp;A.P.</b> Acuerdo Parcial</td>
+            <td width="32%"><b>&nbsp;I.U.P.</b> Inasistencia de una Parte</td>
+            <td width="36%"><b>&nbsp;D.M.C</b> Decisión Motiva del Conciliador</td>
+        </tr>
+        <tr>
+            <td width="32%" style="border-bottom-color: black; border-bottom-style:solid; border-bottom-width:0.5px;"><b>&nbsp;C.I.</b> Conclusión con Informe</td>
+            <td width="32%" style="border-bottom-color: black; border-bottom-style:solid; border-bottom-width:0.5px;">&nbsp;</td>
+            <td width="36%" style="border-bottom-color: black; border-bottom-style:solid; border-bottom-width:0.5px;">&nbsp;</td>
+        </tr>
+        <tr>
+            <td width="100%" colspan="3" style="border-bottom-color: black; border-bottom-style:solid; border-bottom-width:0.5px;">&nbsp;
+                <b>Nota:</b>
+                <br>
+                  &nbsp;(*) Materia no exigible según Artículo 9º del D. Leg. 1070.
+                  <br>
+                  &nbsp;A partir del año 2009 el envío de las Hojas Sumarias se realizarán en forma <u> TRIMESTRAL</u> teniendo como períodos comprendidos los siguientes:
+                  <br> 
+                  &nbsp;1er Trimestre (01 de Enero al 31 de Marzo), 2do Trimestre (01 de Abril al 30 de Junio), 3er Trimestre (01 de Julio al 30 de Setiembre), 4to Trimestre (01 de Octubre al 31 de &nbsp;Diciembre)
+                  <br>
+                  &nbsp;- Anexo 1: Es parte integrante de la Hoja Sumaria debiendo considerarse y llenarse cuando no se encuentre alguna materia conciliable en la Hoja Sumaria, la cual será consignada &nbsp;en la parte  posterior de esta Hoja Sumaria de acuerdo a su materia.
+                  <br>
+                  &nbsp;- El plazo de entrega del informe estadístico (Hoja Sumaria), de conformidad con el Art. 30º del D. Leg. Nº 070, será de cinco (05) días hábiles contados del vencimiento de cada &nbsp; trimestre.
+                  <br>
+            </td>
+        </tr>
+    </table>
+    <table class="tablaleyenda">
+        <tr>
+            <td width="50%"><b>&nbsp;Procedemientos Iniciados.-</b> cantidad de procedimientos que se dieron inicio durante el periodo (Solicitudes ingresadas).</td>
+            <td width="50%">
+                <b>En Trámite.-</b> Cantidad de Procedimientos No Concluidos en el periodo y/o periodos anteriores.
+                <br>
+                <b>Concluidos.- </b> Cantidad de Procedimientos finalizados con acta y/o informe, asi hayan iniciado en el periodo anterior.
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" colspan="2" style="border-top-color: black; border-top-style:solid; border-top-width:0.5px;">&nbsp;</td>
+        </tr>
+    </table>
+    <table class="tablafirma">
+        <tr>
+            <td width="50%">&nbsp;</td>
+            <td width="50%">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <p><b>_______________________________________</b></p>
+                <p><b>FIRMA Y SELLO DEL DIRECTOR DEL</b></p>
+                <p><b>CENTRO DE CONCILIACION</b></p>
+            </td>
+        </tr>
+    </table>  
+</div>
+
+</body>
+</html>

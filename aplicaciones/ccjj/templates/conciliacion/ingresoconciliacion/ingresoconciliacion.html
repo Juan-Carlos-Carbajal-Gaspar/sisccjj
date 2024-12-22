@@ -1,0 +1,126 @@
+{% extends 'form.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block subhead %}
+    <!-- select 2 -->
+    <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+{% endblock subhead %}
+
+{% block contentform %}
+<form id="formingresoexpconciliacion" method="POST" enctype="multipart/form-data">
+    <div class="card-body">
+        <!-- Ingresos Conciliacion -->
+        <section class="content" id="sec_IngresoExpConciliacion">
+            <div class="container-fluid">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                <!-- general form elements -->
+                    <div class="card card-primary">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" id="action" value="{{ action }}">
+                            <input type="hidden" name="idexp" id="idexp" value="{{ idexp }}">
+                            <input type="hidden" name="tipcon" id="tipcon" value="{{ tipcon }}">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="">Pactado (S/.): </label>
+                                        {{ formpagoexp.pacpag_con }}
+                                        <label for="">Descontar (S/.): </label>
+                                        {{ formpagoexp.descuento }}
+                                        <label for="">Pagar Adelanto (S/.): </label>
+                                        {{ formpagoexp.adelanto }}
+                                            
+                                        <label>Socio:</label>
+                                        <div class="input-group">
+                                            {{ formpagoexp.socios }}
+                                            <div class="input-group-append">
+                                                <button class="btn btn-success btn-flat btnAddSocio" type="button">
+                                                    <i class="fas fa-user-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <label for="">Cliente:</label>
+                                        <select class="form-control" id="cliente" name="cliente" required>
+                                            
+                                        </select>
+                                    
+                                    </div>                                    
+                                </div> 
+                            </div> 
+                                                      
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="float-right">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Guardar Pagos</button>               
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.card-body -->
+
+</form>
+
+<!-- Modal Para Agregar Socio -->
+<div class="modal fade" id="modalSocio" style="display: none;" aria-hidden="true">
+    <form id="formSocio" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-user-plus"></i> Agregar Nuevo Socio</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">×</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    {% csrf_token %}
+
+                    {{ form.errors }}
+                    
+                    {% for field in formsocio.visible_fields %}
+                        <div class="form-group">
+                            <label for="">{{ field.label }}:</label>
+                            {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer justify-content-between">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar Socio</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+</div>
+
+{% endblock contentform %}
+
+<!-- Bloque javascripts -->
+{% block subbody %}
+    <!-- Ingreso Conciliacion -->
+    <script src="{% static 'conciliacion/ingresoconciliacion/js/ingresoconciliacion13.js' %}"></script>
+
+    <!-- Select2-->
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'lib/AdminLTE-3.1.0/js/adminlte.min.js' %}"></script>
+{% endblock subbody %}

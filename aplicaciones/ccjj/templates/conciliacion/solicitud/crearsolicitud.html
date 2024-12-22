@@ -1,0 +1,390 @@
+{% extends 'form.html' %}
+
+{% load widget_tweaks %}
+
+{% load static %}
+
+{% block subhead %}
+    <!-- select 2 -->
+    <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+{% endblock subhead %}
+
+{% block contentform %}
+<form id="formsolicitudgeneral" method="POST" enctype="multipart/form-data">
+    <div class="card-body">
+        <!-- Fila -->
+        <div class="row">
+            <div class="col-sm-12 textcenter">
+            <div class="form-group">
+                {% if tipcform == 'ma' %}
+                        <button type="button" class="btn btn-block btn-outline-info btn-lg">CONCILIACIÓN EN EL MISMO ACTO</button> 
+                {% else %}
+                        <button type="button" class="btn btn-block btn-outline-info btn-lg">CONCILIACIÓN CON INVITACIÓN</button>
+                {% endif %}
+            </div>
+            </div>
+        </div>
+
+        <!-- Fila-->
+        <div class="row">
+            <div class="col-sm-12">
+            <div class="form-group">
+
+                <!-- Datos Solicitud -->
+                <section class="content" id="sec_DatosSolicitud">
+                    <div class="container-fluid">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                        <!-- general form elements -->
+                            <div class="card card-primary">
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" id="action" value="{{ action }}">
+                                    <input type="hidden" name="idexpediente" id="idexpediente" value="{{ idexpediente }}">
+                                    <input type="hidden" name="idconciliador" id="idconciliador" value="{{ request.user.id }}">
+                                    <input type="hidden" name="tipocon" id="tipocon" value="{{ tipcform }}">
+
+                                    <div class="row">
+                                        <div class="col-sm-3 textcenter">
+                                            <div class="form-group">
+                                                <label for="">Número de Solicitud: </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 textcenter">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="numsolicitud" name="numsolicitud" value="{{ numsol }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 textcenter">
+                                            <div class="form-group">
+                                                <label for="">Fecha: </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 textcenter">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="fechSolicitud" name="fechSolicitud" value="{{ fechahora }}" readonly>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Solicitantes -->
+                <section class="content" id="sec_Solicitantes">
+                    <div class="container-fluid">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                        <!-- general form elements -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Partes en conflicto - solicitantes:
+                                    </h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>Buscar DNI Solicitante:</label>
+                                                <div class="input-group">
+                                                    <select class="form-control select2" name="searchsol"></select>
+                                                        {# <input type="text" class="form-control" autocomplete="off" #}
+                                                        {# placeholder="Ingrese DNI Solicitante" maxlength="8" name="searchsol" id="searchsol"> #}
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-success btn-flat btnAddSolicitante" type="button">
+                                                            <i class="fas fa-user-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <button type="button" class="btn btn-danger btn-xs btn-flat btnRemoveAllSol">
+                                                <i class="fas fa-trash"></i> Eliminar todos mis registros
+                                            </button>
+                                            <hr>
+                                            <table class="table" id="tblSolicitante">
+                                                <thead>
+                                                <tr>
+                                                    <th>Opciones</th>
+                                                    <th>DNI | Nombres y Apellidos</th>
+                                                    <th>N° Celular</th>
+                                                    <th>Dirección</th>
+                                                    <th>Email</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Para ver si tiene invitados -->
+                {% if tipcform == 'ma' %}
+                    &nbsp;
+                {% else %}
+                    <!-- Invitados -->
+                    <section class="content" id="sec_Invitados">
+                        <div class="container-fluid">
+                        <div class="row">
+                            <!-- left column -->
+                            <div class="col-md-12">
+                            <!-- general form elements -->
+                                <div class="card card-primary">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            Partes en conflicto - invitados:
+                                        </h3>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label>Buscar DNI Invitado:</label>
+                                                    <div class="input-group">
+                                                        <select class="form-control select2" name="searchinv"></select>
+                                                            {# <input type="text" class="form-control" autocomplete="off" #}
+                                                            {# placeholder="Ingrese DNI Invitado" maxlength="8" name="searchinv"> #}
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-success btn-flat btnAddInvitado" type="button">
+                                                                <i class="fas fa-user-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                                <button type="button" class="btn btn-danger btn-xs btn-flat btnRemoveAllInv">
+                                                    <i class="fas fa-trash"></i> Eliminar todos mis registros
+                                                </button>
+                                                <hr>
+                                                <table class="table" id="tblInvitado">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Eliminar</th>
+                                                        <th>DNI | Nombres y Apellidos</th>
+                                                        <th>N° Celular</th>
+                                                        <th>Dirección</th>
+                                                        <th>Email</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <!-- /.card-body -->
+                                </div>
+                                <!-- /.card -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                {% endif %}
+                
+                <!-- Hechos -->
+                <section class="content" id="sec_Hechos">
+                    <div class="container-fluid">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                        <!-- general form elements -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Hechos:
+                                    </h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <textarea class="form-control" name="txtHechos" id="txtHechos" rows="3" placeholder="Ingresar Hechos" style="margin-top: 0px; margin-bottom: 0px; height: 70px;" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Descripcion -->
+                <section class="content" id="sec_Descripcion">
+                    <div class="container-fluid">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                        <!-- general form elements -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        Pretensión:
+                                    </h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <textarea class="form-control" name="txtPretension" id="txtPretension" rows="3" placeholder="Ingresar Pretension" style="margin-top: 0px; margin-bottom: 0px; height: 70px;" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="float-right">
+                                            
+                                                <button type="submit" class="btn btn-primary" id="btnguardarsol"><i class="fa fa-save"></i> Guardar Solicitud</button>               
+                                                
+                                            </div>
+                                        </div>
+                                    </div>    
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Modal Para Agregar-Editar Solicitantes -->
+<div class="modal fade" id="modalSolicitantes" style="display: none;" aria-hidden="true">
+    <form id="formSolicitantes" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title"><b><i class="fas fa-search"></i> <span></span></b></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">X</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="create_cliente">
+                    <input name="id" id="id" type="hidden" value="0">
+
+                    {{ form.errors }}
+                    
+                    {% for field in formcliente.visible_fields %}
+                        <div class="form-group">
+                            <label for="">{{ field.label }}:</label>
+                            {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Guardar</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+</div>
+
+<!-- Modal Para Agregar-Editar Invitados -->
+<div class="modal fade" id="modalInvitados" style="display: none;" aria-hidden="true">
+    <form id="formInvitados" enctype="multipart/form-data" method="post">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title"><b><i class="fas fa-search"></i> <span></span></b></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">X</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="create_cliente">
+                    <input name="id" id="id" type="hidden" value="0">
+
+                    {{ form.errors }}
+                    
+                    {% for field in formcliente.visible_fields %}
+                        <div class="form-group">
+                            <label for="">{{ field.label }}:</label>
+                            {{ field|add_class:'form-control'|attr:'autocomplete:off' }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Guardar</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+</div>
+
+{% endblock contentform %}
+
+<!-- Bloque javascripts -->
+{% block subbody %}
+    <!-- Solicitud -->
+    <script src="{% static 'conciliacion/solicitud/js/solicitud18.js' %}"></script>
+
+    <!-- Select2-->
+    <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+    <script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'lib/AdminLTE-3.1.0/js/adminlte.min.js' %}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/jszip/jszip.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/pdfmake/vfs_fonts.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'lib/AdminLTE-3.1.0/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+{% endblock subbody %}
